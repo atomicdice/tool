@@ -1,3 +1,4 @@
+from logging import exception
 from canalyse_tool import canalyse_menu
 import os
 import pandas as pd
@@ -59,9 +60,14 @@ class Canalyse():
                 except:
                     pass
         if recordmode == 'on':
-            d1 = Canalyse.read(self,'data/db.log','off')
-            x  = Canalyse.refine(self,d1,data)
-            Canalyse.write(self,x,'a+','data/db.log')
+            try:
+                d1 = Canalyse.read(self,'data/db.log','off')
+                x  = Canalyse.refine(self,d1,data)
+                Canalyse.write(self,x,'a+','data/db.log')
+            except Exception as e:
+                print (e)
+                input()
+                raise e
         return x
 
     def write(self,df,filemode,filename): # converting our format to logfile format.
